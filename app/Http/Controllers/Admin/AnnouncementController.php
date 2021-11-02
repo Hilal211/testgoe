@@ -25,6 +25,18 @@ class AnnouncementController extends Controller
     {
         $data = Announcement::all();
         return Datatables::of($data)
+        ->editColumn('status', function ($data) {
+            $name = $data->status;
+            $id = $data->id;
+            
+            $name .="<div class='action-controls'>";
+            $name .="   <a href='javascript:;' onclick='showEdit(this)' data-id='".$id."'><i class='fa fa-pencil'></i></a>"; 
+            
+            $name .="</div>";   
+            return $name;
+        })
+        ->removeColumn('english_image')
+        ->removeColumn('francais_image')
             ->removeColumn('id')
             ->make();
     }
@@ -52,7 +64,7 @@ class AnnouncementController extends Controller
 
         $ann->description = $description;
         $ann->english_image = $inputs['english_image'];
-        $ann->francais_image = $inputs['english_image'];
+        $ann->francais_image = $inputs['francais_image'];
         $ann->status = $status;
        
 
