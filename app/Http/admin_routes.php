@@ -83,6 +83,12 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin','middleware' => ['hasrole
     Route::get('/tax-management',['as'=>'admin.get.tax','uses'=>'TaxController@index']);
     Route::post('/tax-management',['as'=>'admin.save.tax','uses'=>'TaxController@postTax']);
     
+    /*----------  announcementt pages  ----------*/ 
+    Route::get('/announcement',['as'=>'admin.get.announcement','uses'=>'AnnouncementController@index']);
+    Route::get('/announcement-data',['as'=>'get.announcement','uses'=>'AnnouncementController@getAnnouncements']);
+    Route::post('/save-announcement',['as'=>'save.announcement','uses'=>'AnnouncementController@saveAnnouncements']);
+
+    
     /*----------  admin profile route  ----------*/
     Route::get('/profile',['as'=>'pages.admin_profile','uses'=>'PagesController@getProfile']);
     Route::post('/profile',['as'=>'save.profile','uses'=>'PagesController@postProfile']);

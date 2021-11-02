@@ -4,38 +4,19 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>Products</h1>
-    <!-- <div class="form-group">
-          {{ Form::label('Excel File',['class'=>'control-label']) }}
-            {{ Form::file('bg_file', ['data-multiple'=>false,'class' => 'file-input','id'=>'background-file']) }}
-            <button>upload</button>
-        </div> -->
-    <!-- <form method="GET" enctype="multipart/form-data" id="laravel-ajax-file-upload" action="">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <input type="text" name="file" placeholder="Choose File" id="file">
-            <span class="text-danger">{{ $errors->first('file') }}</span>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </div>
-    </form> -->
-    <!-- {!! Form::open(["url"=>"/hilalo","method"=>"POST","class"=>"",'onsubmit'=>'return Hilalo()']) !!}
-    {{ Form::text('name','',["class"=>'form-control','placeholder'=>'French Category name',"spellcheck"=>"true",'id'=>'inputt']) }}
-    {{ Form::button(trans('keywords.Sign In'),["type"=>"submit","class"=>"btn btn-primary"]) }}
-    {!! Form::close() !!} -->
+    <form method="post" id="upload-file-form" enctype="multipart/form-data">
+      <div class="row" style="margin-top:20px;">
+        <div class="form-group col-md-6">
+            {{-- <input type="file" name="file" class="form-control" id="background-image" class='file-input'> --}}
+            {{ Form::file('file', ['data-multiple'=>false,'class' => 'file-input','id'=>'background-image',required]) }}
 
-     <form method="post" id="upload-file-form" enctype="multipart/form-data">
-        <div class="form-group">
-            <input type="file" name="file" class="form-control" id="file-input">
             <span class="text-danger" id="file-input-error"></span>
         </div>
 
-        <div class="form-group">
-          <button type="submit" class="btn btn-success">Upload</button>
+        <div class="form-group col-md-6">
+          <button type="submit" class="btn btn-success">Done</button>
         </div>
+      </div>
 
     </form>
 
@@ -242,41 +223,22 @@
   }
 </script>
 <script type="text/javascript">
-  // function Hilalo(){
-  //   // var formData = new FormData(dd);
-    
-  //   var str = $("#inputt").val();
-  //   data = new FormData();
-  //   data.append("name", str);
-  //   alert(str);
-  //   $.ajax({
-  //           type: "POST",
-  //           url: APP_URL + '/store/{{$store_id}}/storehilalo',
-  //           data: data,
-  //           dataType: "json",
-  //           success: function (response) {
-  //           },
-  //           error: function (jqXHR, exception) {
-  //           }
-  //       });
-  //   return false;
-  // }
-
-   $('#upload-file-form').submit(function(e) {
+  $('#upload-file-form').submit(function(e) {
        e.preventDefault();
        let formData = new FormData(this);
        $('#file-input-error').text('');
 
        $.ajax({
           type:'POST',
-          url:APP_URL + '/store/{{$store_id}}/storehilalo',
+          url:APP_URL + '/store/{{$store_id}}/addupdateproduct',
            data: formData,
            contentType: false,
            processData: false,
            success: (response) => {
              if (response) {
                this.reset();
-               alert('file has been uploaded successfully');
+               if(response.message!="success")
+               alert(response.message);
              }
            },
            error: function(response){
@@ -285,7 +247,5 @@
            }
        });
   });
-
-
 </script>
 @stop

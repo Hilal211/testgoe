@@ -81,6 +81,12 @@
           <span class="label label-default pull-right"></span>
         </a>
       </li>
+      <li class="{{(Route::getCurrentRoute()->getName()=='admin.get.announcement' ? "active" : "")}}">
+        <a href="{{route('admin.get.announcement')}}">
+          <i class="fa fa-bullhorn"></i> <span>Announcementt</span>
+          <span class="label label-default pull-right"></span>
+        </a>
+      </li>
       <li class="{{(Route::getCurrentRoute()->getName()=='admin.settings' ? "active" : "")}}">
         <a href="{{route('admin.settings')}}">
           <i class="fa fa-cog"></i> <span>Settings</span>

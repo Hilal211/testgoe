@@ -424,18 +424,22 @@ class ProductController extends Controller
         ));
     }
 
-    public function hilalStore(Request $request, $idS)
+    public function addUpdateProduct(Request $request, $idS)
     {
         $file = $request->file('file');
         $filef = $file->path();
         $id = [];
         $price = [];
         $discounted_price = [];
+        $inventory=[];
         $filea = fopen($filef, 'r');
+        $message="Not found this product id:";
+        $error=0;
         while (($line = fgetcsv($filea)) !== false) {
             array_push($id, $line[0]);
             array_push($price, $line[1]);
             array_push($discounted_price, $line[2]);
+            array_push($inventory, $line[3]);
         }
         fclose($filea);
 
@@ -446,24 +450,41 @@ class ProductController extends Controller
             } else {
                 $quotationLines = new StoreProducts();
             }
-            $checkProduct = Product::where('id', $id[$i])->first();
-            if ($checkProduct) {
+            // $checkProduct = Product::where('id', $id[$i])->first();
+            // if ($checkProduct) {
                 $quotationLines->product_id = $id[$i];
+                $quotationLines->store_id = $idS;
                 $quotationLines->price = $price[$i];
                 $quotationLines->discounted_price = $discounted_price[$i];
-            }
+                if($inventory[$i]){
+                    $quotationLines->inventory = $inventory[$i];
+                }
+            // }
+            // else{
+            //     if($id[$i]!="id"){
+            //     $message=$message . $id[$i] . " ";
+            //     $error=1;
+            //     }
+            // }
             if (!$quotationLines->save()) {
                 return response()->json(array(
                     "status" => "failed",
                 ));
             }
             $quotationLines->save();
-
-            // array_push($finaleProduct, $quotationLines);
         }
-        return response()->json(array(
-            "status" => "success",
-        ));
+        if ($error==1) {
+            return response()->json(array(
+                    "status" => "success",
+                    "message"=>$message,
+                ));
+        }
+        else{
+            return response()->json(array(
+                "status" => "success",
+                "message"=>"success",
+            ));
+        }
 
         // print_r($checkReference);
     }

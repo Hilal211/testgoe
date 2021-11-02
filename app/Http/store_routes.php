@@ -34,7 +34,7 @@ Route::group(['prefix' => 'store','namespace'=>'Store','middleware' => ['hasrole
 		Route::get('/rating-data',['as'=>'post.ratings','uses'=>'PagesController@postAllRatings']);
 
 		Route::get('/login-as-admin',['as'=>'store.admin.login','uses'=>'PagesController@loginAsAdmin']);
-		Route::post('/{store_id}/storehilalo',['as'=>'store.hilalo','uses'=>'ProductController@hilalStore']);
+		Route::post('/{store_id}/addupdateproduct',['as'=>'store.hilalo','uses'=>'ProductController@addUpdateProduct']);
 });
 Route::group(['prefix' => 'store','namespace'=>'Store','middleware' => ['auth']], function () {
 		/*============================================
