@@ -37,7 +37,6 @@ Route::group(['namespace' => 'FrontEnd'], function() {
 	Route::post('/cart/get-shipping',["as"=>'frontend.shipping',"uses"=>'CartController@getShipping']);
 	Route::post('/cart/apply-coupon',["as"=>'frontend.apply.coupon',"uses"=>'CartController@applyCoupon']);
 	Route::post('/cart/{sid}/products',["as"=>'frontend.store-with-products',"uses"=>'CartController@storeSelectionWithProduct']);
-	Route::post('/cart/hilal',["as"=>'frontend.send',"uses"=>'CartController@hilalSend']);
 
 	Route::post('/cart/{sid}/store_product_details',["as"=>'frontend.store-products',"uses"=>'CartController@ProductsWithStores']);
 	Route::post('/cart/{sid}/related_products/{product_id}',["as"=>'frontend.related.store-products',"uses"=>'CartController@RelatedProductsWithStores']);
@@ -60,6 +59,8 @@ Route::group(['namespace'=>'FrontEnd','middleware' => ['hasrole:customer']], fun
 	Route::post('/customer/cancel-order/{id}',["as"=>'front.cancel-order',"uses"=>'PagesController@postCancelOrder']);
 	Route::post('/customer/rate_order/',["as"=>'front.rate-order',"uses"=>'PagesController@postRateOrder']);
 	Route::post('/customer/get_rate/{rate_id}',["as"=>'front.get-rate-order',"uses"=>'PagesController@getRateOrder']);
+// stat
+Route::post('/addstat',["as"=>'add.stat',"uses"=>'StatisticsController@create']);
 
 });
 Route::group(['namespace'=>'FrontEnd','middleware' => ['auth']], function (){
@@ -89,3 +90,4 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['prefix' => 'store','namespace'=>'Store','middleware' => ['auth']], function () {
 	Route::post('/invoice/{id}',['as'=>'store.invoice','uses'=>'InvoiceController@getInvoice']);
 });
+

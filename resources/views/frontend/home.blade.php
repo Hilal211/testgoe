@@ -1,4 +1,3 @@
-
 @extends('frontend.layout.home_default')
 @section('content')
 @if(Session::get('success')!='' || Session::get('newsletter_success')!='' || Session::get('order_success')!='')

@@ -548,4 +548,6 @@ return [
 "Discount"=>"Rabais",
 "Have a promocode? Enter here"=>"Avez vous un coupon?  Ajoutez le içi",
 "Add your note for delivery"=>"Ajoutez votre note pour la livraison",
+"image_announcement"=>"francais_image",
+
     ];

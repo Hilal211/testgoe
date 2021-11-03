@@ -2,7 +2,7 @@
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Announcements</h1>
+        <h1>statOrder</h1>
     </section>
     <section class="content">
         <div class="row">
@@ -11,7 +11,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"></h3>
                         <div class="box-tools pull-right">
-                            <a class="btn-block btn-box-tool" href="#CouponModal" data-toggle="modal"><i class="fa fa-plus"></i> Add announcement</a>
+                            <!-- <a class="btn-block btn-box-tool" href="#CouponModal" data-toggle="modal"><i class="fa fa-plus"></i> Add announcement</a> -->
                         </div>
                     </div>
                     <div class="box-body">
@@ -19,8 +19,11 @@
                             <table id="All_CouponTable" class="table no-margin table-actions table-small-padding orderTable">
                                 <thead>
                                     <tr>
-                                        <th>Discrption</th>
-                                        <th>Status</th>
+                                        <th>User Id</th>
+                                        <th>User Email</th>
+                                        <th>Step</th>
+                                        <th>Date</th>
+
                                     </tr>
                                 </thead>
                             </table>
@@ -89,22 +92,34 @@
         oTable = $('#All_CouponTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: 'announcement-data',
+            ajax: 'statistics-data',
             order: [],
             "drawCallback": function(settings) {
                 InitTooltip();
             },
             columns: [{
                     data: '0',
-                    name: 'discrption'
+                    name: 'user_id'
                 },
-
                 {
-                    data: '1',
-                    name: 'status',
+                    data: '8',
+                    name: 'email',
                     searchable: false,
                     sortable: false
                 },
+                {
+                    data: '2',
+                    name: 'step',
+                    searchable: false,
+                    sortable: false
+                },
+                {
+                    data: '1',
+                    name: 'date',
+                    searchable: false,
+                    sortable: false
+                },
+               
 
             ]
         });

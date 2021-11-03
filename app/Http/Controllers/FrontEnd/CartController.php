@@ -280,14 +280,6 @@ class CartController extends Controller
             return json_encode($data);
         }
     }
-    public function hilalSend(Request $request){
-        print_r("e"); die();
-        $name = $request->input('name');
-        $data=array("name"=>$name);
-        return json_encode($data);
-
-    }
-
 
     public function storeSelectionWithProduct(Request $request,$locale,$sid){
         if(Auth::check())

@@ -45,12 +45,6 @@
         <li>Minimum amount of purchase is $ 50 CAD.</li>
     </ul>
 </div>
-<div>
-    {!! Form::open(["url"=>"/frontend/sendtt","method"=>"POST","class"=>"",'onsubmit'=>'return Send(this)']) !!}
-    {{ Form::text('name','',["class"=>'form-control','placeholder'=>'Category name',"spellcheck"=>"true"]) }}
-    <button type="submit" class="btn btn-primary">Save</button>
-    {!! Form::close() !!}
-</div>
 <div class="table-responsive">
     <table class="table table table-shopping-cart">
         <thead>
@@ -90,28 +84,3 @@
 <div class="gap gap-small gap-bottom"></div>
 <a class="btn btn-primary pull-left" href="{{url('/')}}?refer=store-selection">
     << {{trans('keywords.PICK YOUR ITEMS')}}</a>
-    <script>
-
-function Send(form){
-cid = 1;
-qty = 3;
-    $.ajax({
-            type: "POST",
-            url: APP_URL + '/cart/hilal',
-            data: "cid=" + cid+"&opt=value&qty_value="+qty,
-            dataType: "json",
-            success: function (response) {
-                if (response.result == "success"){
-                    reloadCartItem();
-                }
-            },
-            error: function (jqXHR, exception) {
-              var Response = jqXHR.responseText,              
-              Response = $.parseJSON(Response);
-              DisplayErrorMessages(Response,"",'toaster');
-              $("body").loader('hide');
-            }
-        });
-    return false;
-  }
-    </script>

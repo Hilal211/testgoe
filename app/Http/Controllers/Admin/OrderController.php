@@ -209,4 +209,10 @@ class OrderController extends Controller {
             return response()->json(['error' => 'Error msg'], 404);
         }
     }
+
+    public function index()
+    {
+       
+        return view('admin.statOrder');
+    }
 }

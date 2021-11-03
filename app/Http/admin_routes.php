@@ -87,8 +87,10 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin','middleware' => ['hasrole
     Route::get('/announcement',['as'=>'admin.get.announcement','uses'=>'AnnouncementController@index']);
     Route::get('/announcement-data',['as'=>'get.announcement','uses'=>'AnnouncementController@getAnnouncements']);
     Route::post('/save-announcement',['as'=>'save.announcement','uses'=>'AnnouncementController@saveAnnouncements']);
+    Route::get('/announcement/{id}/edit',['as'=>'get.announcement','uses'=>'AnnouncementController@edit']);
+        /*----------  statOrder pages  ----------*/ 
+        Route::get('/statorder',['as'=>'admin.get.statorder','uses'=>'OrderController@index']);
 
-    
     /*----------  admin profile route  ----------*/
     Route::get('/profile',['as'=>'pages.admin_profile','uses'=>'PagesController@getProfile']);
     Route::post('/profile',['as'=>'save.profile','uses'=>'PagesController@postProfile']);
@@ -113,3 +115,9 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin','middleware' => ['hasrole
     Route::get('/get-virtual-store-bank',['as'=>'get.virtual.bank','uses'=>'VirtualStoreController@getBankDetails']);
     Route::get('/login-as-virtual-store/{id}',['as'=>'admin.virtual.store.login','uses'=>'VirtualStoreController@loginAsVirtualStore']);
 });
+Route::group(['prefix' => 'admin','namespace'=>'FrontEnd','middleware' => ['hasrole:admin']], function () {
+        /*----------  announcementt pages  ----------*/ 
+        Route::get('/statistics',['as'=>'admin.get.statistics','uses'=>'StatisticsController@index']);
+        Route::get('/statistics-data',['as'=>'get.statistics','uses'=>'StatisticsController@getStatistics']);
+
+    });

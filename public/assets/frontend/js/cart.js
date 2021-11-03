@@ -1,4 +1,5 @@
     //var offset = 0;
+    var idG=0;
 var TotalStoreItems = 0;
 var idleTime = 0;
 var cartItem = [];
@@ -347,6 +348,7 @@ function reloadStore(offset,limit){
         success: function (response) {
             var cartTotalItem = response.total_cart_product;
             var storedCartItem = response.storeList;
+            var id=response.user_id;
             TotalStoreItems = response.totcount;
             
             if (storedCartItem.length > 0) {
@@ -390,7 +392,7 @@ function reloadStore(offset,limit){
                     if(price<50){
                     html += '<td><a href="#" class="btn btn-primary btn-sm pull-right"  style="background-color:gray;opacity:0.5;cursor: not-allowed;"> $'+leftToCheckout+' left to checkout</a></td>';
                     }else{
-                    html += '<td><a href="javascript:void(0);" onclick="checkOutStore(\''+item.id+'\');" class="btn btn-primary btn-sm pull-right"><i class="fa fa-cart-plus"></i> '+Pay+' >></a></td>';
+                    html += '<td><a href="javascript:void(0);" onclick="checkOutStore(\''+item.id+'\',\'' + id + '\');" class="btn btn-primary btn-sm pull-right"><i class="fa fa-cart-plus"></i> '+Pay+' >></a></td>';
                     }
                     html += '</tr>';
                 });
@@ -468,7 +470,7 @@ function showRelated(sid,productId){
         }
     });
 }
-function checkOutStore(sid){
+function checkOutStore(sid,id){
     var LoggedMenu = $('#logged_in_menu').length;
     if(LoggedMenu=='0'){
         toastr.warning(LoginMsg, Warning);
@@ -476,15 +478,66 @@ function checkOutStore(sid){
         $('#nav-login-dialog').find('#pay_store_id').val(sid);
     }else{
         window.location.href=APP_URL+"/cart/"+sid+"/checkout";
+        var idd= parseInt(id);
+    
+        var data = new FormData();
+        data.append("user_id",idd); 
+        data.append("step",3); 
+
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url:APP_URL + "/addstat",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 800000,
+            success: function (data) {
+                console.log("SUCCESS : ");
+            },
+            error: function (e) {
+                $("#output").text(e.responseText);
+                console.log("ERROR : ", e);
+                $("#btnSubmit").prop("disabled", false);
+            }
+        });
+
     }
 }
- function selectStore(){
+ function selectStore(id){
     var LoggedMenu = $('#logged_in_menu').length;
     if(LoggedMenu=='0'){
         toastr.warning(LoginMsg, Warning);
         $('a[href="#nav-login-dialog"]').click();
     }else{
         window.location.href=APP_URL+"/cart/store-selection";
+        console.log(id);
+        var idd= parseInt(id);
+    
+        var data = new FormData();
+        data.append("user_id",idd); 
+        data.append("step",2); 
+
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url:APP_URL + "/addstat",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 800000,
+            success: function (data) {
+                console.log("SUCCESS : ");
+            },
+            error: function (e) {
+                $("#output").text(e.responseText);
+                console.log("ERROR : ", e);
+                $("#btnSubmit").prop("disabled", false);
+            }
+        });
+
     }
 }
 function changeCartIcon(storedCartItem){

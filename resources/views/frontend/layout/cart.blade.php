@@ -50,7 +50,7 @@
     <span class="text-orange">{{trans('keywords.When you')}} <b>{{trans('keywords.type in')}}</b> {{trans('keywords.Qty, please press Enter to update cart.')}}</span>
 </div>
 <div class="col-md-12">
-    <a class="btn btn-primary pull-right" href="javascript:void(0);" onclick="selectStore();">{{trans('keywords.\Select store')}} >></a>
+    <a class="btn btn-primary pull-right" href="javascript:void(0);" onclick="selectStore(<?php echo $id ?>);">{{trans('keywords.\Select store')}} >></a>
     <a class="btn btn-primary pull-left" href="{{url('/contact-us')}}">{{trans("keywords.Can't find product?")}}</a>
 </div>
 </div>

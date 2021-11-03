@@ -30,6 +30,8 @@ App\orders_details,
 App\StoreProducts,
 App\Ratings,
 App\StoreDetails,
+App\Announcement,
+
 App\NewsletterSubscription;
 
 class PagesController extends Controller
@@ -37,7 +39,7 @@ class PagesController extends Controller
     //
     public function index(Request $request){
         $cats = _category::getAllCategories('1','1','1','home');
-        
+        $ann = Announcement::where('status', 1)->first();
         $guid = '';
         if(Cookie::get('guid')==''){
             $cookiesValue = round(microtime(true)).round(rand(10000,90000));
@@ -58,12 +60,17 @@ class PagesController extends Controller
         $zip = Cookie::get('zip');
         $lat = Cookie::get('lat');
         $long = Cookie::get('long');
+        $user = Auth::user();
+        $loggedUserId = Auth::user()->id;
+
         $data = [
             'cats'=>$cats,
             "zip"=>$zip,
             "lat"=>$lat,
             "long"=>$long,
-            "guid"=>$guid
+            "guid"=>$guid,
+            "ann"=>$ann,
+            "id"=>$loggedUserId
         ];
         //session(['order_success' => 'success']);
         //session(['order_id' => '#00000001']);

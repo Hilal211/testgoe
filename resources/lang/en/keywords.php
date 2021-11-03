@@ -590,4 +590,5 @@ return [
 "Discount"=>"Discount",
 "Have a promocode? Enter here"=>"Have a promocode? Enter here",
 "Add your note for delivery"=>"Add your note for delivery",
+"image_announcement"=>"english_image",
     ];

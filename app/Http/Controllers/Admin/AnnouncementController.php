@@ -25,133 +25,110 @@ class AnnouncementController extends Controller
     {
         $data = Announcement::all();
         return Datatables::of($data)
-        ->editColumn('status', function ($data) {
-            $name = $data->status;
-            $id = $data->id;
-            
-            $name .="<div class='action-controls'>";
-            $name .="   <a href='javascript:;' onclick='showEdit(this)' data-id='".$id."'><i class='fa fa-pencil'></i></a>"; 
-            
-            $name .="</div>";   
-            return $name;
-        })
-        ->removeColumn('english_image')
-        ->removeColumn('francais_image')
+            ->editColumn('status', function ($data) {
+                $name = $data->status;
+                $id = $data->id;
+                $name .= "<div class='action-controls'>";
+                $name .= "   <a href='javascript:;' onclick='showEdit(this)' data-id='" . $id . "'><i class='fa fa-pencil'></i></a>";
+
+                $name .= "</div>";
+                return $name;
+            })
+            ->removeColumn('english_image')
+            ->removeColumn('francais_image')
             ->removeColumn('id')
             ->make();
     }
     public function saveAnnouncements(Request $request)
     {
-        $ann = new Announcement();
-        $description = $request->description;
-        $status = $request->status;
+        $id = $request->id;
+        if ($id == 0) {
+            $ann = new Announcement();
+            $description = $request->description;
+            $status = $request->status;
 
-        $file = $request->file('english_image');
-        if ($request->hasFile('english_image')) {
-            if ($file->isValid()) {
-                $image_data = Functions::UploadPic($file, config('theme.COUPON_UPLOAD'));
-                $inputs['english_image'] = $image_data['encrypted_name'];
+            $file = $request->file('english_image');
+            if ($request->hasFile('english_image')) {
+                if ($file->isValid()) {
+                    $image_data = Functions::UploadPic($file, config('theme.COUPON_UPLOAD'));
+                    $inputs['english_image'] = $image_data['encrypted_name'];
+                }
             }
-        }
-
-        $file = $request->file('francais_image');
-        if ($request->hasFile('francais_image')) {
-            if ($file->isValid()) {
-                $image_data = Functions::UploadPic($file, config('theme.COUPON_UPLOAD'));
-                $inputs['francais_image'] = $image_data['encrypted_name'];
+            $file2 = $request->file('francais_image');
+            if ($request->hasFile('francais_image')) {
+                if ($file2->isValid()) {
+                    $image_data = Functions::UploadPic($file2, config('theme.COUPON_UPLOAD'));
+                    $inputs['francais_image'] = $image_data['encrypted_name'];
+                }
             }
+            $ann->description = $description;
+            $ann->english_image = $inputs['english_image'];
+            $ann->francais_image = $inputs['francais_image'];
+            $ann->status = $status;
+            $ann->save();
+            return response()->json(array(
+                "status" => "success",
+                "message" => $description,
+                "p1" => $inputs['english_image'],
+                "des" => $inputs['description'],
+                "id" => $id
+
+            ));
+        } else {
+            $ann = Announcement::where('id', $id)->first();
+            $description = $request->description;
+            $status = $request->status;
+
+            $file = $request->file('english_image');
+            if ($request->hasFile('english_image')) {
+                if ($file->isValid()) {
+                    $image_data = Functions::UploadPic($file, config('theme.COUPON_UPLOAD'));
+                    $inputs['english_image'] = $image_data['encrypted_name'];
+                }
+            }
+
+            $file2 = $request->file('francais_image');
+            if ($request->hasFile('francais_image')) {
+                if ($file2->isValid()) {
+                    $image_data = Functions::UploadPic($file2, config('theme.COUPON_UPLOAD'));
+                    $inputs['francais_image'] = $image_data['encrypted_name'];
+                }
+            }
+            $ann->description = $description;
+            if ($inputs['english_image'] != null) {
+                $ann->english_image = $inputs['english_image'];
+            }
+            if ($inputs['francais_image'] != null) {
+                $ann->francais_image = $inputs['francais_image'];
+            }
+            $ann->status = $status;
+            $ann->save();
+            return response()->json(array(
+                "status" => "success",
+                "message" => $description,
+                "p1" => $inputs['english_image'],
+                "des" => $inputs['description'],
+                "id" => $id
+            ));
         }
+    }
 
-        $ann->description = $description;
-        $ann->english_image = $inputs['english_image'];
-        $ann->francais_image = $inputs['francais_image'];
-        $ann->status = $status;
-       
+    public function edit($id)
+    {
+        $inputs = Announcement::find($id);
+        $image = ($inputs->english_image != '' ? url(Functions::UploadsPath(config('theme.COUPON_UPLOAD')) . $inputs->english_image) : "");
+        $image2 = ($inputs->francais_image != '' ? url(Functions::UploadsPath(config('theme.COUPON_UPLOAD')) . $inputs->francais_image) : "");
 
-        $Image = Functions::UploadsPath(config('theme.COUPON_UPLOAD')) . $coupon->english_image;
-        $Image = public_path() . '/' . $Image;
-        $Image = str_replace('public/public', 'public', $Image);
-        chmod($Image, 0777);
-        $ann->save();
-
-
+        $filteredArr = [
+            'id' => ["type" => "text", 'value' => $inputs->id],
+            'description' => ["type" => "text", 'value' => $inputs->description],
+            'status' => ["type" => "radio", 'selectedValue' => $inputs->status],
+            'english_image' => ["type" => "image", 'file' => $image],
+            'francais_image' => ["type" => "image", 'file' => $image2],
+        ];
         return response()->json(array(
             "status" => "success",
-            "message" => $description,
-            "p1" => $inputs['english_image'],
-            "des" => $inputs['description']
-
+            "inputs" => $filteredArr,
         ));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // if($file!=null){
-        //     if($OldAnn->english_image!=''){
-        //         $Image = Functions::UploadsPath(config('theme.CATEGORY_UPLOAD')).$OldAnn->english_image;
-        //         \File::delete($Image);
-        //     }
-        //     $data = Functions::UploadPic($file,config('theme.CATEGORY_UPLOAD'));
-        //     $OldAnn->update(['english_image'=>$data['encrypted_name']]);
-        //     $Image = Functions::UploadsPath(config('theme.CATEGORY_UPLOAD')).$data['encrypted_name'];
-        //     $Image = public_path().'/'.$Image;
-        //     $Image = str_replace('public/public','public',$Image);
-        //     chmod($Image,0777);
-        // }
-        // $file2 = $request->file('francais_image');
-        // if($file!=null){
-        //     if($OldAnn->english_image!=''){
-        //         $Image = Functions::UploadsPath(config('theme.CATEGORY_UPLOAD')).$OldAnn->english_image;
-        //         \File::delete($Image);
-        //     }
-        //     $data = Functions::UploadPic($file,config('theme.CATEGORY_UPLOAD'));
-        //     $OldAnn->update(['francais_image'=>$data['encrypted_name']]);
-        //     $Image = Functions::UploadsPath(config('theme.CATEGORY_UPLOAD')).$data['encrypted_name'];
-        //     $Image = public_path().'/'.$Image;
-        //     $Image = str_replace('public/public','public',$Image);
-        //     chmod($Image,0777);
-        // }
-        // $status = $request->status;
-
-
-        // if ($request->hasFile('english_image')) {
-        //     $original_name=$request->file('english_image')->getClientOriginalName();
-        //     $uniqueid=time();
-
-        //     $size=$request->file('english_image')->getSize();
-        //     $extension=$request->file('english_image')->getClientOriginalExtension();
-
-        //     $name=$uniqueid.'.'.$extension;
-        //     $path=$request->file('english_image')->storeAs('public/assets/uploads', $name);
-
-
-
-        //     if ($path) {
-        //         $ann = new Announcement();
-        //         $ann->description=$description;
-        //         $ann->status=$status;
-        //         $ann->english_image=$name;
-        //         $ann->save();
-
-        //         return response()->json(array('status'=>'success','message'=>'Image successfully uploaded','english_image'=>$name));
-        //     } else {
-        //         return response()->json(array('status'=>'error','message'=>'failed to upload english_image'));
-        //     }
-        // }
-
-
-
-
     }
 }
