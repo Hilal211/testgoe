@@ -98,7 +98,13 @@
 
           <li class="{{(Route::getCurrentRoute()->getName()=='admin.get.statorder' ? "active" : "")}}">
             <a href="{{route('admin.get.statorder')}}">
-              <i class="fa fa-percent"></i> <span>stat</span>
+              <i class="fa fa-percent"></i> <span>stat product</span>
+              <span class="label label-default pull-right"></span>
+            </a>
+          </li>
+          <li class="{{(Route::getCurrentRoute()->getName()=='admin.get.statorderstore' ? "active" : "")}}">
+            <a href="{{route('admin.get.statorderstore')}}">
+              <i class="fa fa-percent"></i> <span>stat store</span>
               <span class="label label-default pull-right"></span>
             </a>
           </li>

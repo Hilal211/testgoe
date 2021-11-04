@@ -2,10 +2,10 @@
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>statOrder</h1>
+        <h1>state store order</h1>
     </section>
     <section class="content">
-        {!! Form::open(["url"=>route('save.statorder'),"method"=>"POST",'onsubmit'=>'return SaveCoupon(this)']) !!}
+        {!! Form::open(["url"=>route('save.statorderstore'),"method"=>"POST",'onsubmit'=>'return SaveCoupon(this)']) !!}
         <div class="row form-group">
             <div class="col-md-3">
                 {{ Form::label('start_date','Start Date',['class'=>'control-label']) }}
@@ -16,11 +16,11 @@
                 {{ Form::text('end_date','',["class"=>'end_date_picker form-control','autocomplete'=>'off']) }}
             </div>
             <div class="col-md-3">
-                {{ Form::label('product','Product',['class'=>'control-label']) }}
-                <select name="product" id="product" class=' form-control'>
+                {{ Form::label('store','store',['class'=>'control-label']) }}
+                <select name="store" id="store" class=' form-control'>
                     <option value="all">All</option>
                     @foreach($data as $d)
-                    <option value="{{$d->id}}">{{$d->product_name}}</option>
+                    <option value="{{$d->id}}">{{$d->storename}}</option>
                     @endforeach
                 </select>
             </div>
@@ -103,12 +103,12 @@
                     $(".products").show();
                     body.children("tr").remove();
                     for (var i = 0; i < result.length; i++)
-                        body.append("<tr><td>" + result[i]["product_name"] + "</td><td>" + result[i]["total"] + "</td></tr>");
+                        body.append("<tr><td>" + result[i]["storename"] + "</td><td>" + result[i]["total"] + "</td></tr>");
                 } else {
                     $(".intro").hide();
                     $(".countPro").hide();
                     $(".products").show();
-                    body.append("<tr><td>" + res.productName["product_name"] + "</td><td>" + count + "</td></tr>");
+                    body.append("<tr><td>" + res.store["storename"] + "</td><td>" + count + "</td></tr>");
                 }
             },
             error: function(jqXHR, exception) {
