@@ -21,8 +21,8 @@
 @else
     {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'bootstrap.min.css') !!}
     {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'font-awesome.min.css') !!}
-    {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'styles.min.css?version=1') !!}
-    {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'custom.min.css?version=1') !!}
+    {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'styles.css') !!}
+    {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'custom.css') !!}
     {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'responsive.min.css?version=1') !!}
     {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'schemes/orange.min.css?version=1') !!}
     {!! Html::style(config('theme.ASSETS').config('theme.FRONT_CSS').'loader/jquery.loader.css') !!}

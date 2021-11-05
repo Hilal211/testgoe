@@ -97,8 +97,10 @@
 	font-size: 18px;
 }
 .registration-bg-footer{
-	border-radius: 0 0 6px 6px !important;
-}
+    border-radius: 0 !important;
+    background: #e96125;
+    margin-bottom: 40px
+;}
 .registration-bg-footer .description{
 	font-size: 16px;
 	color: #fff;
@@ -125,9 +127,8 @@
 	margin:0px;
 }
 .registration-bg{
-	background: #e96125;
-	color:#fff;
-	float: left;
+	color:#000;
+	/* float: left; */
 	padding: 10px;
 	border-top-left-radius: 6px;
     border-top-right-radius: 6px;

@@ -1,7 +1,7 @@
 @extends('frontend.layout.default')
 
 @section('content')
-<div class="container">
+<div class="" style="width:100% !important;">
 	<div class="gap gap-small"></div>
 	<div class="row bg-orange-rounded">
 		<div class="registration-bg form-group">

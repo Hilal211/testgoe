@@ -1,17 +1,18 @@
 @extends('frontend.layout.default')
 
 @section('content')
-<div class="container">
+<div class="">
     <div class="gap gap-small"></div>
-    <div class="row bg-orange-rounded">
-        <div class="col-md-12 no-padding">
+    <div class="bg-orange-rounded">
+        <div class="col-md-12 no-padding bordercard">
+           
+            <div class="col-md-8 col-md-push-2">
             <div class="registration-bg form-group">
                 <div class="col-md-12">
                     <h1 class="widget-title text-center">{{ trans('keywords.Shopper Registration') }}</h1>
                     <p class="description text-center">{{ trans('keywords.Let’s get you ready to start shopping with us. Please enter some info below. You will receive a confirmation message, please follow the steps in the email to complete your registration also note  your email will be your username.') }}</p>
                 </div>
             </div>
-            <div class="col-md-8 col-md-push-2">
                 <div class="gap gap-small gap-border"></div>
                 <div class="alert alert-success form-success display-none">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -19,7 +20,7 @@
                 </div>
                 <div class="alert alert-danger form-errors display-none">
                     <ul>
-                        
+
                     </ul>
                 </div>
                 {!! Form::open(["id"=>"frmBuyerRegister","name"=>"frmBuyerRegister","url"=>"buyer-register","method"=>"POST","autocomplete"=>"off"]) !!}
@@ -60,7 +61,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div id="zip_holder" class="m-top-minus-4 col-md-5" {!! (old('subscribe') == 1) ? "" : 'style="display: none"' !!}>
+                                <div id="zip_holder" class="m-top-minus-4 col-md-5" {!! (old('subscribe')==1) ? "" : 'style="display: none"' !!}>
                                     <div class="form-group">
                                         @include('common.required_mark') {!! Form::label('zip',trans("keywords.Postal / Zip Code"),['class'=>'control-label']) !!}
                                         <input type="text" name="zip" class="form-control" placeholder="{{trans("keywords.Postal / Zip Code")}}">
@@ -85,30 +86,33 @@
                 </div>
                 <div class="gap gap-small gap-bottom"></div>
                 {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-    @if(Session::get('success')=='')
-    <div class="row bg-orange-rounded">
-        <div class="registration-bg registration-bg-footer col-md-12 text-center">
-            <div class="row">
-                <div class="description col-xs-12 font-16">
-                    <p class="no-margin">{{ trans("keywords.Already have an account? Login") }}
-                    <a class="login-link" href="{{route('login')}}" data-effect="mfp-move-from-top"> {{ trans("keywords.here") }}</a></p>
+                @if(Session::get('success')=='')
+                <div class=" bg-orange-rounded">
+                    <div class="registration-bg registration-bg-footer col-md-12 text-center">
+                        <div class="row">
+                            <div class="description col-xs-12 font-16">
+                                <p class="no-margin">{{ trans("keywords.Already have an account? Login") }}
+                                    <a class="login-link" href="{{route('login')}}" data-effect="mfp-move-from-top"> {{ trans("keywords.here") }}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                @endif
             </div>
+
         </div>
     </div>
-    @endif
+
 </div>
 @stop
 @section('page_custom_js')
 <script>
-    $(document).ready(function () {
-        $('#subscribe').on('ifChanged', function () {
+    $(document).ready(function() {
+        $('#subscribe').on('ifChanged', function() {
             $('#zip_holder').toggle();
         })
-        $("#frmBuyerRegister").submit(function (event) {
+        $("#frmBuyerRegister").submit(function(event) {
             event.preventDefault();
             $("body").loader('show');
             $('.form-errors').hide();
@@ -119,12 +123,12 @@
                 url: "buyer-register",
                 data: Data,
                 dataType: "json",
-                success: function (res) {
+                success: function(res) {
                     $("body").loader('hide');
                     if (res.status == 'buyer_registered') {
                         var Response = res.message,
-                        SuccessBlock = $('.form-success');
-                        DisplaySuccessMessage(res.message,SuccessBlock)
+                            SuccessBlock = $('.form-success');
+                        DisplaySuccessMessage(res.message, SuccessBlock)
                         $(Form).find('input').val('');
                         $(Form).find('input:checkbox').iCheck('uncheck');
                         $(Form).find('input:checkbox').iCheck('update');
@@ -133,11 +137,11 @@
                         grecaptcha.reset();
                     }
                 },
-                error: function (jqXHR, exception) {
+                error: function(jqXHR, exception) {
                     $("body").loader('hide');
                     var Response = jqXHR.responseText,
-                    ErrorBlock = $('.form-errors'),
-                    Response = $.parseJSON(Response);
+                        ErrorBlock = $('.form-errors'),
+                        Response = $.parseJSON(Response);
                     DisplayErrorMessages(Response, ErrorBlock, 'ul');
                     grecaptcha.reset();
                 }

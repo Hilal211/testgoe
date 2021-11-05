@@ -15,17 +15,17 @@
         <ul class="dropdown-menu dropdown-menu-category dropdown-menu-category-hold dropdown-menu-category-sm">
             <li class="active-default">
                 <i class="fa fa-map-marker dropdown-menu-category-icon"></i>
-                {{-- {{trans('keywords.Postal / Zip Code')}} <small>{{trans('keywords.Click')}} <a href="javascript:;" onclick="ResetCookie()" class="zip-link">{{trans('keywords.here')}}</a> {{trans('keywords.to change zip')}}</small> --}}
+                {{-- {{trans('keywords.Postal / Zip Code')}} <small>{{trans('keywords.Click')}} <a href="javascript:;" onclick="ResetCookie()" class="zipLink">{{trans('keywords.here')}}</a> {{trans('keywords.to change zip')}}</small> --}}
                 @if(Cookie::get('zip'))
-                    <span>{{trans('keywords.We will search stores within 3 miles of your saved Postal / Zip code')}}
+                    <span class="descLocation">{{trans('keywords.We will search stores within 3 miles of your saved Postal / Zip code')}}
                     <strong class='display_zip_code'>{{Cookie::get('zip')}}.</strong> 
                 @else
-                    <span>{{trans('keywords.We will search stores within 3 miles of your saved Postal / Zip code.')}}
+                    <span class="descLocation">{{trans('keywords.We will search stores within 3 miles of your saved Postal / Zip code.')}}
                     <strong class='display_zip_code'>{{trans("keywords.You haven't saved your Postal / Zip code yet.")}}</strong>
                 @endif
                 {{trans('keywords.Please click')}}
 
-                <a href="javascript:;" onclick="ResetCookie()" class="zip-link">{{trans('keywords.here')}}</a>
+                <a href="javascript:;" onclick="ResetCookie()" class="zipLink">{{trans('keywords.here')}}</a>
 
                 {{trans('keywords.if you want to change Postal / Zip code.')}} </span>
             </li>
